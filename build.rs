@@ -61,7 +61,7 @@ const CONDITIONAL_CFGS: &'static [ConditionalCfg] = &[
 ];
 
 fn main() {
-	let ver=rustc_version::version_meta();
+	let ver=rustc_version::version_meta().unwrap();
 
 	let io_commit=match env::var("CORE_IO_COMMIT") {
 		Ok(c) => c,

@@ -3,8 +3,8 @@
 //! the [std documentation](https://doc.rust-lang.org/nightly/std/io/index.html)
 //! for a full description of the functionality.
 #![allow(stable_features,unused_features,incomplete_features)]
-#![feature(question_mark,const_fn,copy_from_slice,try_from,str_internals,align_offset,
-       doc_spotlight,slice_internals,maybe_uninit_ref,mem_take,specialization)]
+#![feature(question_mark,copy_from_slice,try_from,str_internals,align_offset,
+    doc_notable_trait,slice_internals,maybe_uninit_ref,mem_take,specialization)]
 #![cfg_attr(any(feature="alloc",feature="collections"),feature(alloc,allocator_api))]
 #![cfg_attr(feature="collections",feature(vec_spare_capacity,maybe_uninit_slice,
                                           new_uninit,debug_non_exhaustive))]

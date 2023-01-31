@@ -1,6 +1,6 @@
 [package]
 name = "core_io"
-version = "0.1.20210325"
+version = "0.1.20221029"
 authors = ["The Rust Project Developers", "Jethro Beekman"]
 license = "MIT/Apache-2.0"
 description = """
@@ -25,7 +25,7 @@ include = [
 build = "build.rs"
 
 [build-dependencies]
-rustc_version = "0.1.7"
+rustc_version = "0.4.0"
 
 [features]
 alloc = []
