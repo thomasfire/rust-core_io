@@ -3,7 +3,7 @@ mod tests;
 
 use crate::io::prelude::*;
 
-#[cfg(feature="alloc")] use crate::alloc::Allocator;
+#[cfg(feature="alloc")] use alloc::alloc::Allocator;
 use core::cmp;
 use crate::io::{self, BorrowedCursor, ErrorKind, IoSlice, IoSliceMut, SeekFrom, const_io_error};
 
@@ -589,7 +589,7 @@ where
 }
 
 #[cfg(feature = "alloc")]
-impl<A> Write for Cursor<::alloc::boxed::Box<[u8]>>
+impl<A> Write for Cursor<::alloc::boxed::Box<[u8], A>>
 where
     A: Allocator,
 {

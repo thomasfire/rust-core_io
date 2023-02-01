@@ -133,15 +133,7 @@ unsafe impl Send for Repr {}
 unsafe impl Sync for Repr {}
 
 impl Repr {
-    #[cfg(feature="alloc")]
-    pub(super) fn new(dat: ErrorData<Box<Custom>>) -> Self {
-        match dat {
-            ErrorData::Os(code) => Self::new_os(code),
-            ErrorData::Simple(kind) => Self::new_simple(kind),
-            ErrorData::SimpleMessage(simple_message) => Self::new_simple_message(simple_message),
-            ErrorData::Custom(b) => Self::new_custom(b),
-        }
-    }
+
 
     #[cfg(feature="alloc")]
     pub(super) fn new_custom(b: Box<Custom>) -> Self {
@@ -316,7 +308,7 @@ where
             // comment above the `wrapping_add` call in `new_custom` for why),
             // but it isn't clear that it makes a difference, so we don't.
             let custom = ptr.as_ptr().wrapping_byte_sub(TAG_CUSTOM).cast::<Custom>();
-            ErrorData::Custom(make_custom(custom))
+            ErrorData::Custom(Box::new(make_custom(custom)))
         }
         _ => {
             // Can't happen, and compiler can tell

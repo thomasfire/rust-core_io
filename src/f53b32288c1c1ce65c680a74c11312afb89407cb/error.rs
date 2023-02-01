@@ -776,24 +776,7 @@ impl Error {
     ///     }
     /// }
     /// ```
-    #[cfg(feature="alloc")]
-    pub fn downcast<E>(self) -> result::Result<Box<E>, Self>
-    {
-        match self.repr.into_data() {
-            ErrorData::Custom(b) if b.error.is::<E>() => {
-                let res = (*b).downcast::<E>();
 
-                // downcast is a really trivial and is marked as inline, so
-                // it's likely be inlined here.
-                //
-                // And the compiler should be able to eliminate the branch
-                // that produces `Err` here since b.error.is::<E>()
-                // returns true.
-                Ok(res.unwrap())
-            }
-            repr_data => Err(Self { repr: Repr::new(repr_data) }),
-        }
-    }
 
     /// Returns the corresponding [`ErrorKind`] for this error.
     ///
