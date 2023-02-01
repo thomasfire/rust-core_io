@@ -8,9 +8,9 @@
 /// `pos..filled` is always a valid index into the initialized region of the buffer. This means
 /// that user code which wants to do reads from a `BufReader` via `buffer` + `consume` can do so
 /// without encountering any runtime bounds checks.
-use crate::cmp;
-use crate::io::{self, BorrowedBuf, Read};
-use crate::mem::MaybeUninit;
+use core::cmp;
+use crate::io::{self, BorrowedBuf, Read, Box};
+use core::mem::MaybeUninit;
 
 pub struct Buffer {
     // The buffer.

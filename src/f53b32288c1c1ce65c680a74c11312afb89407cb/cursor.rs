@@ -6,6 +6,7 @@ use crate::io::prelude::*;
 #[cfg(feature="alloc")] use alloc::alloc::Allocator;
 use core::cmp;
 use crate::io::{self, BorrowedCursor, ErrorKind, IoSlice, IoSliceMut, SeekFrom, const_io_error};
+#[cfg(feature="collections")] use core::convert::TryInto;
 
 
 /// A `Cursor` wraps an in-memory buffer and provides it with a

@@ -14,7 +14,7 @@ use crate::io::Error;
 pub use self::{bufreader::BufReader, bufwriter::BufWriter, linewriter::LineWriter};
 use self::linewritershim::LineWriterShim;
 
-pub use bufwriter::WriterPanicked;
+pub use self::bufwriter::WriterPanicked;
 
 /// An error returned by [`BufWriter::into_inner`] which combines an error that
 /// happened while writing out the buffer, and the buffered writer object

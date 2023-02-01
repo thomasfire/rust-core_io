@@ -1,10 +1,8 @@
 #[cfg(test)]
 mod tests;
 
-#[cfg(feature="collections")] use core::alloc::Allocator;
 #[cfg(feature="alloc")] use alloc::alloc::Allocator;
 use core::cmp;
-#[cfg(feature="collections")] use crate::collections::VecDeque;
 #[cfg(feature="alloc")] use alloc::collections::VecDeque;
 use core::fmt;
 use crate::io::{

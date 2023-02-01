@@ -1,3 +1,4 @@
+use crate::io::{const_io_error,};
 use core::fmt;
 use crate::io::{
     self, ErrorKind, IntoInnerError, IoSlice, Seek, SeekFrom, Write, DEFAULT_BUF_SIZE, prelude::*

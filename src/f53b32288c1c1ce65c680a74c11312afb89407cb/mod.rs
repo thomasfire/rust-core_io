@@ -263,11 +263,8 @@ use core::mem::replace;
 
 #[cfg(feature="alloc")] use alloc::boxed::Box;
 
-#[cfg(feature="collections")] pub use self::buffered::IntoInnerError;
-#[cfg(feature="collections")] pub use self::buffered::{BufReader, BufWriter, LineWriter};
-
 #[cfg(feature="collections")] mod buffered;
-#[cfg(feature="collections")] pub use buffered::{BufReader, BufWriter, IntoInnerError, LineWriter, WriterPanicked};
+#[cfg(feature="collections")] pub use self::buffered::{BufReader, BufWriter, IntoInnerError, LineWriter, WriterPanicked};
 
 pub use self::{
     copy::copy,

@@ -140,7 +140,7 @@ pub(crate) macro const_io_error($kind:expr, $message:expr $(,)?) {
 // As with `SimpleMessage`: `#[repr(align(4))]` here is just because
 // repr_bitpacked's encoding requires it. In practice it almost certainly be
 // already be this high or higher.
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Clone)]
 #[repr(align(4))]
 struct Custom {
     kind: ErrorKind,
