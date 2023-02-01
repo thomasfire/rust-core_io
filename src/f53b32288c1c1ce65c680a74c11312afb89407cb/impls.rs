@@ -1,5 +1,3 @@
-#[cfg(test)]
-mod tests;
 
 #[cfg(feature="alloc")] use alloc::alloc::Allocator;
 use core::cmp;

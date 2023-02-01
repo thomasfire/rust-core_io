@@ -1,9 +1,12 @@
 use super::{repeat, BorrowedBuf, Cursor, SeekFrom};
-use crate::cmp::{self, min};
+use core::cmp::{self, min};
 use crate::io::{self, IoSlice, IoSliceMut};
-use crate::io::{BufRead, BufReader, Read, Seek, Write};
-use crate::mem::MaybeUninit;
-use crate::ops::Deref;
+use crate::io::{BufRead, BufReader, Read, Seek, Write, const_io_error};
+use core::mem::MaybeUninit;
+use core::ops::Deref;
+#[cfg(feature="alloc")] use alloc::boxed::Box;
+#[cfg(feature="collections")] use collections::vec::Vec;
+#[cfg(feature="collections")] use collections::string::String;
 
 #[test]
 #[cfg_attr(target_os = "emscripten", ignore)]
@@ -307,16 +310,6 @@ fn chain_zero_length_read_is_not_eof() {
     assert_eq!("AB", s);
 }
 
-#[bench]
-#[cfg_attr(target_os = "emscripten", ignore)]
-#[cfg_attr(miri, ignore)] // Miri isn't fast...
-fn bench_read_to_end(b: &mut test::Bencher) {
-    b.iter(|| {
-        let mut lr = repeat(1).take(10000000);
-        let mut vec = Vec::with_capacity(1024);
-        super::default_read_to_end(&mut lr, &mut vec)
-    });
-}
 
 #[test]
 fn seek_len() -> io::Result<()> {
@@ -603,22 +596,3 @@ fn test_take_wrong_length() {
     let _ = reader.read(&mut buffer[..]);
 }
 
-#[bench]
-fn bench_take_read(b: &mut test::Bencher) {
-    b.iter(|| {
-        let mut buf = [0; 64];
-
-        [255; 128].take(64).read(&mut buf).unwrap();
-    });
-}
-
-#[bench]
-fn bench_take_read_buf(b: &mut test::Bencher) {
-    b.iter(|| {
-        let buf: &mut [_] = &mut [MaybeUninit::uninit(); 64];
-
-        let mut buf: BorrowedBuf<'_> = buf.into();
-
-        [255; 128].take(64).read_buf(buf.unfilled()).unwrap();
-    });
-}

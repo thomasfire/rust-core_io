@@ -7,7 +7,7 @@
     pointer_byte_offsets,maybe_uninit_slice,maybe_uninit_write_slice,ptr_as_uninit,decl_macro,
     doc_notable_trait,slice_internals,maybe_uninit_ref,mem_take,specialization,strict_provenance)]
 #![cfg_attr(any(feature="alloc",feature="collections"),feature(alloc,allocator_api))]
-#![cfg_attr(feature="collections",feature(vec_spare_capacity,
+#![cfg_attr(feature="collections",feature(vec_spare_capacity,assert_matches,
                                           new_uninit,debug_non_exhaustive))]
 #![cfg_attr(pattern_guards,feature(bind_by_move_pattern_guards,nll))]
 #![cfg_attr(not(no_collections),feature(collections))]

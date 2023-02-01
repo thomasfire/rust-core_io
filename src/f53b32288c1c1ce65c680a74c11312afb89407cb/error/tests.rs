@@ -1,40 +1,17 @@
 use super::{const_io_error, Custom, Error, ErrorData, ErrorKind, Repr, SimpleMessage};
-use crate::assert_matches::assert_matches;
-use crate::error;
-use crate::fmt;
-use crate::mem::size_of;
-use crate::sys::decode_error_kind;
-use crate::sys::os::error_string;
+use core::assert_matches::assert_matches;
+use core::error;
+use core::fmt;
+use core::mem::size_of;
+#[cfg(feature="alloc")] use alloc::boxed::Box;
+#[cfg(feature="collections")] use collections::vec::Vec;
 
 #[test]
 fn test_size() {
     assert!(size_of::<Error>() <= size_of::<[usize; 2]>());
 }
 
-#[test]
-fn test_debug_error() {
-    let code = 6;
-    let msg = error_string(code);
-    let kind = decode_error_kind(code);
-    let err = Error {
-        repr: Repr::new_custom(Box::new(Custom {
-            kind: ErrorKind::InvalidInput,
-            error: Box::new(Error { repr: super::Repr::new_os(code) }),
-        })),
-    };
-    let expected = format!(
-        "Custom {{ \
-         kind: InvalidInput, \
-         error: Os {{ \
-         code: {:?}, \
-         kind: {:?}, \
-         message: {:?} \
-         }} \
-         }}",
-        code, kind, msg
-    );
-    assert_eq!(format!("{err:?}"), expected);
-}
+
 
 #[test]
 fn test_downcasting() {

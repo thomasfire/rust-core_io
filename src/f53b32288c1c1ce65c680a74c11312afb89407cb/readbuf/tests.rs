@@ -1,5 +1,7 @@
 use super::BorrowedBuf;
-use crate::mem::MaybeUninit;
+use core::mem::MaybeUninit;
+#[cfg(feature="alloc")] use alloc::boxed::Box;
+#[cfg(feature="collections")] use collections::vec::Vec;
 
 /// Test that BorrowedBuf has the correct numbers when created with new
 #[test]
