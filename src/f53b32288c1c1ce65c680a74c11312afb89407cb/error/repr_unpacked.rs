@@ -7,13 +7,14 @@ use super::{Custom, ErrorData, ErrorKind, SimpleMessage};
 #[cfg(feature="alloc")] use alloc::boxed::Box;
 #[cfg(not(feature="alloc"))] use ::FakeBox as Box;
 
-type Inner = ErrorData<Box<Custom>>;
+#[cfg(feature="alloc")] type Inner = ErrorData<Box<Custom>>;
+#[cfg(not(feature="alloc"))] type Inner = ErrorData<Custom>;
 
 pub(super) struct Repr(Inner);
 
 impl Repr {
     #[inline]
-    pub(super) fn new(dat: ErrorData<Box<Custom>>) -> Self {
+    pub(super) fn new(dat: Inner) -> Self {
         Self(dat)
     }
     #[cfg(feature="alloc")]
@@ -37,10 +38,12 @@ impl Repr {
         Self(Inner::SimpleMessage(m))
     }
     #[inline]
-    pub(super) fn into_data(self) -> ErrorData<Box<Custom>> {
+    pub(super) fn into_data(self) -> Inner {
         self.0
     }
+
     #[inline]
+    #[cfg(feature="alloc")]
     pub(super) fn data(&self) -> ErrorData<&Custom> {
         match &self.0 {
             Inner::Os(c) => ErrorData::Os(*c),
@@ -50,6 +53,28 @@ impl Repr {
         }
     }
     #[inline]
+    #[cfg(feature="alloc")]
+    pub(super) fn data_mut(&mut self) -> ErrorData<&mut Custom> {
+        match &mut self.0 {
+            Inner::Os(c) => ErrorData::Os(*c),
+            Inner::Simple(k) => ErrorData::Simple(*k),
+            Inner::SimpleMessage(m) => ErrorData::SimpleMessage(*m),
+            Inner::Custom(m) => ErrorData::Custom(&mut *m),
+        }
+    }
+
+    #[inline]
+    #[cfg(not(feature="alloc"))]
+    pub(super) fn data(&self) -> ErrorData<&Custom> {
+        match &self.0 {
+            Inner::Os(c) => ErrorData::Os(*c),
+            Inner::Simple(k) => ErrorData::Simple(*k),
+            Inner::SimpleMessage(m) => ErrorData::SimpleMessage(*m),
+            Inner::Custom(m) => ErrorData::Custom(&*m),
+        }
+    }
+    #[inline]
+    #[cfg(not(feature="alloc"))]
     pub(super) fn data_mut(&mut self) -> ErrorData<&mut Custom> {
         match &mut self.0 {
             Inner::Os(c) => ErrorData::Os(*c),

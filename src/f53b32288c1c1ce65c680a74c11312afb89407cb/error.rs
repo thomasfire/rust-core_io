@@ -94,9 +94,6 @@ enum ErrorData<C> {
     Os(i32),
     Simple(ErrorKind),
     SimpleMessage(&'static SimpleMessage),
-    #[cfg(feature="alloc")]
-    Custom(Box<C>),
-    #[cfg(not(feature="alloc"))]
     Custom(C),
 }
 
